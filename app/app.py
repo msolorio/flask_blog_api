@@ -1,0 +1,16 @@
+from flask import Flask
+from flask_migrate import Migrate
+from .models import db, ma
+
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object('app.config')
+    db.init_app(app)
+    ma.init_app(app)
+    Migrate(app, db)
+
+    @app.route('/')
+    def root():
+        return { 'message': 'hello from root route' }
+
+    return app
