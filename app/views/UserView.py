@@ -18,6 +18,9 @@ def show_users(user_id):
     if not user:
         return { 'message': 'No user with that id found' }
 
+    print('user ==>', user)
+    print('user.blogposts ==>', user.blogposts)
+
     return user_schema.dump(user)
 
 

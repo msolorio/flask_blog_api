@@ -12,10 +12,6 @@ class User(db.Model):
     created_at = db.Column(db.DateTime)
     modified_at = db.Column(db.DateTime)
 
-    # Q: we may not need this
-    # blogposts = db.relationship('Blogpost', backref=db.backref('users', lazy=True))
-
-
     def save(self):
         # TODO: hash user's password
         db.session.add(self)
@@ -53,15 +49,16 @@ class User(db.Model):
         # Also try
         # return User.query.get(email=email)
 
-
     def __repr__(self):
         return f'<User id: {self.id}>'
 
 
 class UserSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'name', 'email', 'password', 'created_at', 'modified_at')
+        fields = ('id', 'name', 'email', 'password', 'created_at', 'modified_at', 'blogposts')
         model = User
+
+    blogposts = ma.Nested('BlogpostSchema', many=True, exclude=('user',))
 
 
 user_schema = UserSchema()

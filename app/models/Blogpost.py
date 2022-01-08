@@ -10,7 +10,7 @@ class Blogpost(db.Model):
     created_at = db.Column(db.DateTime)
     modified_at = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    # Q: What is lazy
+    # lazy will return the user data in the same query as the blogpost
     user = db.relationship('User', backref=db.backref('blogposts', lazy=True))
 
     def save(self):
@@ -44,10 +44,11 @@ class Blogpost(db.Model):
 
 class BlogpostSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'title', 'contents', 'created_at', 'modified_at', 'user_id')
+        fields = ('id', 'title', 'contents', 'created_at', 'modified_at', 'user')
         model = Blogpost
         include_fk = True
 
+    user = ma.Nested('UserSchema', exclude=('blogposts',))
 
 blogpost_schema = BlogpostSchema()
 blogposts_schema = BlogpostSchema(many=True)
