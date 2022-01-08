@@ -48,7 +48,7 @@ class BlogpostSchema(ma.Schema):
         model = Blogpost
         include_fk = True
 
-    user = ma.Nested('UserSchema', exclude=('blogposts',))
+    user = ma.Nested('PublicUserSchema', exclude=('blogposts',))
 
 blogpost_schema = BlogpostSchema()
 blogposts_schema = BlogpostSchema(many=True)

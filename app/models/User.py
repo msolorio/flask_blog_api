@@ -61,5 +61,15 @@ class UserSchema(ma.Schema):
     blogposts = ma.Nested('BlogpostSchema', many=True, exclude=('user',))
 
 
+class PublicUserSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'name', 'email', 'blogposts')
+
+    blogposts = ma.Nested('BlogpostSchema', many=True, exclude=('user',))
+
+
 user_schema = UserSchema()
 users_schema = UserSchema(many=True)
+
+public_user_schema = PublicUserSchema()
+public_users_schema = PublicUserSchema(many=True)
