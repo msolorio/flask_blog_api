@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+import datetime
 from ..models import blogpost_schema, blogposts_schema, Blogpost
 from ..utils.has_all_required_fields import has_all_required_fields
 
@@ -33,7 +34,9 @@ def create_blogpost():
     blogpost = Blogpost(
         title=req_data.get('title'),
         contents=req_data.get('contents'),
-        user_id=req_data.get('user_id')
+        user_id=req_data.get('user_id'),
+        created_at=datetime.datetime.utcnow(),
+        modified_at=datetime.datetime.utcnow()
     )
 
     blogpost.save()

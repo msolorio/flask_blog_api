@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+import datetime
 from ..models import user_schema, users_schema, User
 from ..utils.has_all_required_fields import has_all_required_fields
 
@@ -17,9 +18,6 @@ def show_users(user_id):
 
     if not user:
         return { 'message': 'No user with that id found' }
-
-    print('user ==>', user)
-    print('user.blogposts ==>', user.blogposts)
 
     return user_schema.dump(user)
 
@@ -40,7 +38,9 @@ def create_users():
     user = User(
         name=req_data.get('name'),
         email=req_data.get('email'),
-        password=req_data.get('password')
+        password=req_data.get('password'),
+        created_at=datetime.datetime.utcnow(),
+        modified_at=datetime.datetime.utcnow()
     )
     user.save()
 
