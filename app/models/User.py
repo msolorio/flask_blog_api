@@ -12,7 +12,12 @@ class User(db.Model):
     created_at = db.Column(db.DateTime)
     modified_at = db.Column(db.DateTime)
 
+    # Q: we may not need this
+    # blogposts = db.relationship('Blogpost', backref=db.backref('users', lazy=True))
+
+
     def save(self):
+        # TODO: hash user's password
         db.session.add(self)
         db.session.commit()
 
@@ -22,13 +27,17 @@ class User(db.Model):
 
     def update(self, data):
         valid_fields = ('name', 'email', 'password')
-
+        # TODO: if password was changed, hash new password
         for key, value in data.items():
             if key in valid_fields:
                 setattr(self, key, value)
         
         self.modified_at = datetime.datetime.utcnow()
         db.session.commit()
+
+    # TODO: Add method to generate password hash
+
+    # TODO: Add method to check password hash
 
     @staticmethod
     def get_all_users():
@@ -37,6 +46,13 @@ class User(db.Model):
     @staticmethod
     def get_one_user(id):
         return User.query.get(id)
+
+    @staticmethod
+    def get_user_by_email(email):
+        return User.query.filter_by(email=email).first()
+        # Also try
+        # return User.query.get(email=email)
+
 
     def __repr__(self):
         return f'<User id: {self.id}>'
