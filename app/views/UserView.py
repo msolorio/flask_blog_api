@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 import datetime
-from ..models import public_user_schema, public_users_schema, User
+from ..models import public_user_schema, public_users_schema, User, user_schema
+from ..shared.Authentication import Auth
 from ..utils.has_all_required_fields import has_all_required_fields
 
 user_bp = Blueprint('users', __name__)
@@ -48,5 +49,23 @@ def create_users():
 
     return public_user_schema.dump(user)
 
+# TODO: login a user - return a token
+@user_bp.route('/login', methods=['POST'])
+def login():
+    req_data = request.get_json()
+
+    if not req_data.get('email') or not req_data.get('password'):
+        return { 'error': 'email and password are required' }, 400
+
+    user = User.get_user_by_email(req_data.get('email'))
+
+    if not user or not user.check_hash(req_data.get('password')):
+        return { 'error': 'invalid credentails' }, 400
+
+    serialized_data = user_schema.dump(user)
+    token = Auth.generate_token(serialized_data.get('id'))
+    # token = Auth.generate_token(user.get('id'))
+
+    return { 'jwt_token': token }, 200
 
 # TODO: Get all blogposts for a particular user

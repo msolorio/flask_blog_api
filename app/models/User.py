@@ -1,5 +1,6 @@
-from . import db, ma
+from . import db, ma, bcrypt
 import datetime
+
 
 
 class User(db.Model):
@@ -13,7 +14,7 @@ class User(db.Model):
     modified_at = db.Column(db.DateTime)
 
     def save(self):
-        # TODO: hash user's password
+        self.password = self.__generate_hash(self.password)
         db.session.add(self)
         db.session.commit()
 
@@ -23,8 +24,10 @@ class User(db.Model):
 
     def update(self, data):
         valid_fields = ('name', 'email', 'password')
-        # TODO: if password was changed, hash new password
         for key, value in data.items():
+            if key == 'password':
+                setattr(self, key, self.__generate_hash(value))
+
             if key in valid_fields:
                 setattr(self, key, value)
         
@@ -32,8 +35,12 @@ class User(db.Model):
         db.session.commit()
 
     # TODO: Add method to generate password hash
+    def __generate_hash(self, password):
+        return bcrypt.generate_password_hash(password, rounds=10).decode('utf-8')
 
     # TODO: Add method to check password hash
+    def check_hash(self, unhashed_password):
+        return bcrypt.check_password_hash(self.password, unhashed_password)
 
     @staticmethod
     def get_all_users():
