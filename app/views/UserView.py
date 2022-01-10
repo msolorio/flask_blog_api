@@ -23,6 +23,7 @@ def show_users(user_id):
     return public_user_schema.dump(user)
 
 
+
 @user_bp.route('/', methods=['POST'])
 def create_users():
     req_data = request.get_json()
@@ -45,11 +46,16 @@ def create_users():
     )
     user.save()
 
-    # TODO: generate authentication token to return to client
+    serialized_data = user_schema.dump(user)
+    token = Auth.generate_token(serialized_data.get('id'))
 
-    return public_user_schema.dump(user)
+    return { 
+        'user': public_user_schema.dump(user),
+        'jwt_token': token
+    }, 200
 
-# TODO: login a user - return a token
+
+
 @user_bp.route('/login', methods=['POST'])
 def login():
     req_data = request.get_json()
@@ -64,7 +70,6 @@ def login():
 
     serialized_data = user_schema.dump(user)
     token = Auth.generate_token(serialized_data.get('id'))
-    # token = Auth.generate_token(user.get('id'))
 
     return { 'jwt_token': token }, 200
 
