@@ -37,7 +37,7 @@ Signup a new user - returns a JWT<br>
 `POST /users/ { 'name': 'Carl', 'email': 'carl@sagan.net', 'password': 'vastness' }`
 
 Login - returns a JWT<br>
-`POST /users/login/ { 'email': 'carl@sagan.net', 'password': 'vastness' }
+`POST /users/login/ { 'email': 'carl@sagan.net', 'password': 'vastness' }`
 
 ---
 
