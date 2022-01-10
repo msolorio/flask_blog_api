@@ -11,7 +11,7 @@ blogpost_bp = Blueprint('blogposts', __name__)
 def index_blogpost():
     all_blogposts = Blogpost.query.all()
 
-    return jsonify(blogposts_schema.dump(all_blogposts))
+    return jsonify(blogposts_schema.dump(all_blogposts)), 200
 
 
 @blogpost_bp.route('/<int:blogpost_id>')
@@ -20,9 +20,9 @@ def show_blogpost(blogpost_id):
     blogpost = Blogpost.query.get(blogpost_id)
 
     if not blogpost:
-        return { 'message': 'No blogpost with that id found' }
+        return { 'message': 'No blogpost with that id found' }, 400
 
-    return blogpost_schema.dump(blogpost)
+    return blogpost_schema.dump(blogpost), 200
 
 
 @blogpost_bp.route('/', methods=['POST'])
@@ -46,4 +46,4 @@ def create_blogpost():
 
     blogpost.save()
 
-    return blogpost_schema.dump(blogpost)
+    return blogpost_schema.dump(blogpost), 201

@@ -11,7 +11,7 @@ user_bp = Blueprint('users', __name__)
 def index_users():
     all_users = User.query.all()
 
-    return jsonify(public_users_schema.dump(all_users))
+    return jsonify(public_users_schema.dump(all_users)), 200
 
 
 @user_bp.route('/<int:user_id>')
@@ -20,9 +20,9 @@ def show_users(user_id):
     user = User.query.get(user_id)
 
     if not user:
-        return { 'message': 'No user with that id found' }
+        return { 'message': 'No user with that id found' }, 400
 
-    return public_user_schema.dump(user)
+    return public_user_schema.dump(user), 200
 
 
 
@@ -54,7 +54,7 @@ def signup():
     return { 
         'user': public_user_schema.dump(user),
         'jwt_token': token
-    }, 200
+    }, 201
 
 
 
