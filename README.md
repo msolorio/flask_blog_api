@@ -33,25 +33,27 @@ This will
 
 ---
 
-Signup a new user - returns a JWT
+Signup a new user - returns a JWT<br>
 `POST /users/ { 'name': 'Carl', 'email': 'carl@sagan.net', 'password': 'vastness' }`
 
-Login - returns a JWT
+Login - returns a JWT<br>
 `POST /users/login/ { 'email': 'carl@sagan.net', 'password': 'vastness' }
 
+---
 
-For all resource routes send request header 'api-token': 'your token'
-Get all users and their blogposts
+For all resource routes send request header 'api-token': 'your token'<br>
+
+Get all users and their blogposts<br>
 `GET /users/`
 
-Get a single user and their blogposts
+Get a single user and their blogposts<br>
 `GET /users/<int:user_id>`
 
-Get all blogposts
+Get all blogposts<br>
 `GET /blogposts/`
 
-Get one blogpost
+Get one blogpost<br>
 `GET /blogposts/<int:blogpost_id>`
 
-Create a blogpost
+Create a blogpost<br>
 `POST /blogposts { 'title': 'The Vastness of Space', 'contents': 'Imagination will often carry us to worlds that never were. But without it we go nowhere.' }`
