@@ -7,6 +7,7 @@ from ..utils.has_all_required_fields import has_all_required_fields
 user_bp = Blueprint('users', __name__)
 
 @user_bp.route('/')
+@Auth.auth_required
 def index_users():
     all_users = User.query.all()
 
@@ -14,6 +15,7 @@ def index_users():
 
 
 @user_bp.route('/<int:user_id>')
+@Auth.auth_required
 def show_users(user_id):
     user = User.query.get(user_id)
 
@@ -25,7 +27,7 @@ def show_users(user_id):
 
 
 @user_bp.route('/', methods=['POST'])
-def create_users():
+def signup():
     req_data = request.get_json()
     
     valid, field = has_all_required_fields(req_data, ('name', 'email', 'password'))
