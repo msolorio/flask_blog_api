@@ -39,8 +39,19 @@ Signup a new user - returns a JWT
 Login - returns a JWT
 `POST /users/login/ { 'email': 'carl@sagan.net', 'password': 'vastness' }
 
-Get all users and their blogposts - sending request header 'api-token' --> 'your token'
+
+For all resource routes send request header 'api-token': 'your token'
+Get all users and their blogposts
 `GET /users/`
 
-Get a single user and their blogposts - sending request header 'api-token' --> 'your token'
+Get a single user and their blogposts
 `GET /users/<int:user_id>`
+
+Get all blogposts
+`GET /blogposts/`
+
+Get one blogpost
+`GET /blogposts/<int:blogpost_id>`
+
+Create a blogpost
+`POST /blogposts { 'title': 'The Vastness of Space', 'contents': 'Imagination will often carry us to worlds that never were. But without it we go nowhere.' }`
