@@ -17,6 +17,6 @@ def create_app():
 
     @app.route('/')
     def root():
-        return { 'message': 'hello from root route' }
+        return { 'message': 'welcome to the blog. Please login at /login' }
 
     return app
