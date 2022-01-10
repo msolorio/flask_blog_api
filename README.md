@@ -56,4 +56,4 @@ Get one blogpost<br>
 `GET /blogposts/<int:blogpost_id>`
 
 Create a blogpost<br>
-`POST /blogposts { 'title': 'The Vastness of Space', 'contents': 'Imagination will often carry us to worlds that never were. But without it we go nowhere.' }`
+`POST /blogposts/ { 'title': 'The Vastness of Space', 'contents': 'Imagination will often carry us to worlds that never were. But without it we go nowhere.' }`
